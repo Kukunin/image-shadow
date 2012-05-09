@@ -8,18 +8,18 @@ It based on *Reflection.js* script by *Christophe Beyls* (Plugin skeleton, idea 
 How it works
 ------------
 
-*image-shadow.js* uses canvas to create shadow with specified colors, blur radius and offset. It wrap IMG tag into wrapper, and set canvas with shadow before IMG element.
+*.jquery.image-shadow.js* uses canvas to create shadow with specified colors, blur radius and offset. It wrap IMG tag into wrapper, and set canvas with shadow before IMG element.
 
 How to use
 ------------
 
 Simply inject script into your page after jQuery library
 
-   <script src="image-shadow.js" type="text/javascript" charset="utf-8"></script>
+   <script src="jquery.image-shadow.js" type="text/javascript" charset="utf-8"></script>
 
-and use `$.image_shadow()` function on your selectors. For example:
+and use `$.imageShadow()` function on your selectors. For example:
 
-    $("img").image_shadow({
+    $("img").imageShadow({
         color: '#666',
         blur: 20
     });
@@ -33,6 +33,7 @@ Plugin has these options:
 
 - color: Color of shadow. Format is the same, as for CSS properties. *Default*: **#000**;
 - blur: Blur radius. *Default*: **0**;
+- blurMethod: Can be *native* or *manual*. If *native* is chose, then `canvas.shadowBlur` will be used, if *manual* - blur algorithm, based on canvas pixel manipulation. *Default*: **native**;
 - offsetX: Offset by X-axis. *Default*: **0**;
 - offsetY: Offset by Y-axis. *Default*: **0**.
 
@@ -40,7 +41,8 @@ Compability
 -----------
 
 Plugin is supported by any modern browser with canvas supporting.
+Tested in Google Chrome 17+, Firefox 12+, Opera 11.62
 
 Internet Explorer 6-8 isn't supported, however it is real to make plugin working in future versions.
 
-In Google Chrome 18 bluring works not properly (I don't know why).
+In Google Chrome 17-20 bluring works not properly (I don't know why). Use `blurMethod: manual` for Chrome.

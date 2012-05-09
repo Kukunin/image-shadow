@@ -9,10 +9,11 @@
 (function($) {
 
 $.fn.extend({
-	image_shadow: function(options) {
+	imageShadow: function(options) {
 		options = $.extend({
-            color: "#fff",
+            color: "#000",
             blur: 0,
+            blurMethod: 'native',
             offsetX : 0,
             offsetY : 0
 		}, options);
@@ -39,7 +40,9 @@ $.fn.extend({
                             context.save();
                             context.translate(options.blur,options.blur);
                             context.shadowColor = options.color;
-                            context.shadowBlur = options.blur;
+                            if ( options.blurMethod == 'native' ) {
+                                context.shadowBlur = options.blur;
+                            }
 
                             //Make shadow separated from original image
                             context.shadowOffsetX = imageWidth+options.blur;
@@ -48,8 +51,19 @@ $.fn.extend({
                             //Draw image outside canvas, that shadow will appear on original image place
 							context.drawImage(img, -imageWidth-options.blur, 0, imageWidth, imageHeight);
                             context.restore();
+
+                            if ( options.blurMethod == 'manual' ) {
+                                if ( typeof window.stackBoxBlurCanvasRGBA == "function" ) {
+                                    //Dirty hack, to pass canvas into stackBoxBlurCanvasRGBA function
+                                    var origin = document.getElementById;
+                                    document.getElementById = function() { return shadow; }
+                                    stackBoxBlurCanvasRGBA( "canvas", 0, 0, imageWidth+(options.blur*2), imageHeight+(options.blur*2), options.blur, 1 );
+                                    document.getElementById = origin;
+                                } else {
+                                    throw "StackBoxBlur.js is required for manual blurring. See http://www.quasimondo.com/BoxBlurForCanvas/FastBlur2Demo.html";
+                                }
+                            }
 						} catch(e) {
-                            console.log(e);
 							return;
 						}
 					} else {
