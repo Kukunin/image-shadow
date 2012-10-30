@@ -36,6 +36,7 @@ Plugin has these options:
 - blurMethod: Can be *native* or *manual*. If *native* is chose, then `canvas.shadowBlur` will be used, if *manual* - blur algorithm, based on canvas pixel manipulation. *Default*: **native**;
 - offsetX: Offset by X-axis. *Default*: **0**;
 - offsetY: Offset by Y-axis. *Default*: **0**;
+- hidden: Whether is shadow is hidden by default. *Default*: **false**;
 - imgClass: Class of the IMG element. *Default*: **shadowed**;
 - wrapperClass: Class of the IMG wrapper. *Default*: **shadow-wrapper**;
 
@@ -50,6 +51,9 @@ Currently, the further API calls are supported:
 
 - **isActive**: Check whether images already have the shadow or not. Returns `true`, if at least one image has shadow;
 - **destroy**: Remove shadow and revert all to the original state;
+- **show**: Show shadow;
+- **hide**: Hide shadow;
+- **toggle**: Toggle shadow;
 
 Compability
 -----------

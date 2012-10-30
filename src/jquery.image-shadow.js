@@ -18,6 +18,7 @@
                 blurMethod: 'native',
                 offsetX : 0,
                 offsetY : 0,
+                hidden : false,
                 imgClass : 'shadowed',
                 wrapperClass : 'shadow-wrapper'
             }, options);
@@ -45,10 +46,10 @@
                     var imageWidth = this.$img.width(),
                         imageHeight = this.$img.height();
 
-                    var shadow = $("<canvas />")[0];
-                    if (shadow.getContext) {
-                        var context = shadow.getContext("2d");
-                            $(shadow).attr({
+                    this.shadow = $("<canvas />")[0];
+                    if (this.shadow.getContext) {
+                        var context = this.shadow.getContext("2d");
+                            $(this.shadow).attr({
                                 width: imageWidth+(this.$$.blur*2),
                                 height: imageHeight+(this.$$.blur*2)
                             });
@@ -71,7 +72,7 @@
                                 if ( typeof window.stackBoxBlurCanvasRGBA == "function" ) {
                                     //Dirty hack, to pass canvas into stackBoxBlurCanvasRGBA function
                                     var origin = document.getElementById;
-                                    document.getElementById = function() { return shadow; }
+                                    document.getElementById = $.proxy(function() { return this.shadow; },this);
                                     stackBoxBlurCanvasRGBA( "canvas", 0, 0, imageWidth+(this.$$.blur*2), imageHeight+(this.$$.blur*2), this.$$.blur, 1 );
                                     document.getElementById = origin;
                                 } else {
@@ -82,7 +83,7 @@
                         //ToDo MSIE Supporting
                         return;
                     }
-                    $(shadow).css({
+                    $(this.shadow).css({
                         display: "block",
                         border: 0,
                         position: "absolute",
@@ -93,7 +94,7 @@
                     this.$wrapper = $(/^a|span$/i.test(this.$img.parent().prop("tagName")) ? "<span />" : "<div />");
                     this.wrapper = this.$wrapper[0];
 
-                    this.$wrapper.insertAfter(this.img).append([this.img, shadow])
+                    this.$wrapper.insertAfter(this.img).append([this.img, this.shadow])
 
                     this.wrapper.className = this.img.className;
                     this.$wrapper.addClass(this.$$.wrapperClass);
@@ -110,6 +111,8 @@
                     this.img.className = this.$$.imgClass;
 
                     this.$img.data(v.dataKey, this);
+
+                    this.$$.hidden ? this.hide() : this.show();
                 }, this);
 
                 if (this.img.complete)
@@ -120,6 +123,21 @@
 
             Context.prototype.isActive = function() {
                 return this.$img.hasClass(this.$$.imgClass) && this.$img.parent().hasClass(this.$$.wrapperClass);
+            }
+
+            Context.prototype.show = function() {
+                this.$wrapper.addClass("show").removeClass("hide");
+                $(this.shadow).show();
+            }
+
+            Context.prototype.hide = function() {
+                this.$wrapper.addClass("hide").removeClass("show");
+                $(this.shadow).hide();
+            }
+
+            Context.prototype.toggle = function() {
+                this.$wrapper.toggleClass("hide").toggleClass("show");
+                $(this.shadow).toggle();
             }
 
             Context.prototype.destroy = function() {
@@ -138,9 +156,7 @@
                     $(this).each(function() {
                         //Check, if there is Context existing
                         if ( $(this).data(v.dataKey) === undefined ) {
-                            setTimeout($.proxy(function() {
-                                new Context(this, options).init();
-                            },this),100);
+                            new Context(this, options).init();
                         }
                     });
                 },this),
@@ -155,12 +171,12 @@
                 },this)
             };
             //Multiplex other similar API calls
-            $.each(['destroy'], $.proxy(function(index, value) {
+            $.each(['destroy','hide','show','toggle'], $.proxy(function(index, value) {
                 $multiplexer[value] = $.proxy(function() {
                     var args = arguments;
                     $(this).each(function() {
                         var obj = $(this).data(v.dataKey);
-                        if ( typeof obj[value] == "function" ) {
+                        if ( obj && typeof obj[value] == "function" ) {
                              obj[value](args);
                         }
                     });
