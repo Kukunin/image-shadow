@@ -6,7 +6,11 @@ Image Shadow is jQuery plugin for creating shadow for transparent (PNG or GIF) i
 How it works
 ------------
 
-*.jquery.image-shadow.js* uses canvas to create shadow with specified colors, blur radius and offset. It wrap IMG tag into wrapper, and set canvas with shadow before IMG element.
+*.jquery.image-shadow.js* uses Raphael.js library to make the shadow behind image.
+
+**WARNING** Due the limitation of the Raphael.js, this method isn't working. You'll receive the same square shadow, as with the simple `box-shadow` CSS3 rule.
+
+This code is live with the hope, Raphael.js will implement glowing for image objects.
 
 DEMO
 ------------
@@ -38,6 +42,8 @@ Options
 Plugin has these options:
 
 - blur: Blur radius. *Default*: **0**;
+- color: Color of the shadow. *Default*: **black**;
+- opacity: Opacity of the shadow. *Default*: **0.5**;
 - offsetX: Offset by X-axis. *Default*: **0**;
 - offsetY: Offset by Y-axis. *Default*: **0**;
 - hidden: Whether is shadow is hidden by default. *Default*: **false**;
@@ -62,8 +68,8 @@ Currently, the further API calls are supported:
 Compability
 -----------
 
-Plugin is supported by any modern browser with canvas supporting.
-Tested in Google Chrome 17+, Firefox 12+, Opera 11.62
+Plugins is supported by all browsers, which supports Raphael.js.
 
-Internet Explorer 6-8 isn't supported, however it is real to make plugin working in future versions.
+From the official site:
 
+*Raphaël currently supports Firefox 3.0+, Safari 3.0+, Chrome 5.0+, Opera 9.5+ and Internet Explorer 6.0+.*

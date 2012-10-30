@@ -20,6 +20,8 @@
                 blur: 0,
                 offsetX : 0,
                 offsetY : 0,
+                color : 'black',
+                opacity : 0.5,
                 hidden : false,
                 imgClass : 'shadowed',
                 wrapperClass : 'shadow-wrapper'
@@ -54,26 +56,15 @@
 
                     var raphael = Raphael(this.shadow,totalWidth,totalHeight);
 
-                    // var defs = $("<defs/>").appendTo(this.shadow);
-                    // var filter = $('<filter id="f1" x="0" y="0" width="10" height="10"/>').appendTo(defs);
-                    // var offset = $('<feOffset result="offOut" in="SourceAlpha"/>').attr({
-                    //     "dx" : imageWidth + this.$$.blur,
-                    //     "dy" : 0
-                    // }).appendTo(filter);
-
-                    // var blur = $('<feGaussianBlur result="blurOut" in="offOut"/>').attr("stdDeviation",10).appendTo(filter);
-                    // var blend = $('<feBlend in="SourceGraphic" in2="blurOut" mode="normal" />').appendTo(filter);
-
-                    // var img = document.createElementNS('http://www.w3.org/2000/svg','image');
-                    // img.setAttributeNS(null,'filter','url(#f1)');
-                    // img.setAttributeNS(null,'height',imageHeight);
-                    // img.setAttributeNS(null,'width',imageWidth);
-                    // img.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href','https://www.google.com.ua/images/srpr/logo3w.png');
-                    // img.setAttributeNS(null,'x',-imageWidth);
-                    // img.setAttributeNS(null,'y',0);
-                    // img.setAttributeNS(null, 'visibility', 'visible');
-                    // $(this.shadow).append(img);
-
+                    var image = raphael.image(this.$img.prop('src'),-imageWidth,0,imageWidth,imageHeight);
+                    image.glow({
+                        width: 0,
+                        offsetx : imageWidth + this.$$.blur,
+                        offsety : this.$$.blur,
+                        color : this.$$.color,
+                        opacity : this.$$.opacity,
+                        fill : true
+                    });
 
                     $(this.shadow).css({
                         display: "block",
