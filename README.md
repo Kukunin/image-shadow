@@ -3,12 +3,17 @@ Image Shadow
 
 Image Shadow is jQuery plugin for creating shadow for transparent (PNG or GIF) images. If you will try to set box-shadow CSS property to img element with transparency, you'll notice square shadow, regardless on image alpha channel. This plugin aims to add this feature.
 
-It based on *Reflection.js* script by *Christophe Beyls* (Plugin skeleton, idea with wrapping).
-
 How it works
 ------------
 
 *.jquery.image-shadow.js* uses canvas to create shadow with specified colors, blur radius and offset. It wrap IMG tag into wrapper, and set canvas with shadow before IMG element.
+
+DEMO
+------------
+
+You can find the simple demo of plugin here: http://htmlpreview.github.com/?https://raw.github.com/Kukunin/image-shadow/master/src/example.html
+
+See `example.html` in `src` folder
 
 How to use
 ------------
@@ -23,8 +28,6 @@ and use `$.imageShadow()` function on your selectors. For example:
         color: '#666',
         blur: 20
     });
-
-See `example.html` in `src` folder
 
 Please note, that, even if you haven't the options, pass the empty object {} as argument.
 If there isn't any argument, you'll receive the API object instead for initialization.
