@@ -182,10 +182,13 @@
                     });
                 },this);
             },this));
-            if ( init )
-                $multiplexer.init();
 
-            return $multiplexer;
+            if ( init ) {
+                $multiplexer.init();
+                return this;
+            } else {
+                return $multiplexer;
+            }
         }
     });
 

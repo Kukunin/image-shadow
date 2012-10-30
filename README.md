@@ -26,6 +26,9 @@ and use `$.imageShadow()` function on your selectors. For example:
 
 See `example.html` in `src` folder
 
+Please note, that, even if you haven't the options, pass the empty object {} as argument.
+If there isn't any argument, you'll receive the API object instead for initialization.
+
 Options
 ---------
 

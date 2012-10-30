@@ -69,15 +69,15 @@
         <h2>Show shadow on hover<h2>
         <script type="text/javascript" charset="utf-8">
             $(function() {
-                $("#shadow6").hover(function() {
-                    $(this).imageShadow().show();
-                },function() {
-                    $(this).imageShadow().hide();
-                }).imageShadow({
+                $("#shadow6").imageShadow({
                     "blur" : 5,
                     "offsetX" : 0,
                     "offsetY" : 0,
                     "hidden"  : 1
+                }).hover(function() {
+                    $(this).imageShadow().show();
+                },function() {
+                    $(this).imageShadow().hide();
                 });
             });
         </script>
