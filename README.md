@@ -15,7 +15,7 @@ This code is live with the hope, Raphael.js will implement glowing for image obj
 DEMO
 ------------
 
-You can find the simple demo of plugin here: http://htmlpreview.github.com/?https://raw.github.com/Kukunin/image-shadow/master/src/example.html
+You can find the simple demo of plugin here: http://htmlpreview.github.com/?https://raw.github.com/Kukunin/image-shadow/svg/src/example.html
 
 See `example.html` in `src` folder
 
