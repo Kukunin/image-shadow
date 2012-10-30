@@ -17,9 +17,12 @@
                 offsetX : 0,
                 offsetY : 0,
                 imgClass : 'shadowed',
-                wrapperClass : 'shadow-wrapper',
-                dataKey : 'image-shadow'
+                wrapperClass : 'shadow-wrapper'
             }, options);
+
+            var v = {
+                dataKey : 'image-shadow'
+            }
 
 
             //Context for the one instance of IMG
@@ -104,7 +107,7 @@
                     this.img.style.cssText = "display: block; border: 0px; position:relative; z-index:2; ";
                     this.img.className = this.$$.imgClass;
 
-                    this.$img.data(this.$$.dataKey, this);
+                    this.$img.data(v.dataKey, this);
                 }, this);
 
                 if (this.img.complete)
@@ -117,11 +120,12 @@
                 return this.$img.hasClass(this.$$.imgClass) && this.$img.parent().hasClass(this.$$.wrapperClass);
             }
 
-            Context.prototype.unshadow = function() {
+            Context.prototype.destroy = function() {
                 if ( this.isActive() ) {
                     this.img.className = this.wrapper.className;
                     this.img.style.cssText = this.cssText;
                     this.$wrapper.replaceWith( this.img );
+                    this.$img.removeData(v.dataKey);
                 }
             }
 
@@ -130,21 +134,27 @@
             var $multiplexer = {
                 "init" : $.proxy(function() {
                     $(this).each(function() {
-                        setTimeout($.proxy(function() {
-                            new Context(this, options).init();
-                        },this),100);
+                        //Check, if there is Context existing
+                        if ( $(this).data(v.dataKey) === undefined ) {
+                            setTimeout($.proxy(function() {
+                                new Context(this, options).init();
+                            },this),100);
+                        }
                     });
-
-                },this),
-                "show" : $.proxy(function() {
-
-                },this),
-                "hide" : $.proxy(function() {
-
-                },this),
-                "unshadow" : $.proxy(function() {
                 },this)
             };
+            //Multiplex other API calls
+            $.each(['isActive','destroy'], $.proxy(function(index, value) {
+                $multiplexer[value] = $.proxy(function() {
+                    var args = arguments;
+                    $(this).each(function() {
+                        var obj = $(this).data(v.dataKey);
+                        if ( typeof obj[value] == "function" ) {
+                            obj[value](args);
+                        }
+                    });
+                },this);
+            },this));
             $multiplexer.init();
 
             return $multiplexer;
