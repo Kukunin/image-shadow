@@ -35,7 +35,21 @@ Plugin has these options:
 - blur: Blur radius. *Default*: **0**;
 - blurMethod: Can be *native* or *manual*. If *native* is chose, then `canvas.shadowBlur` will be used, if *manual* - blur algorithm, based on canvas pixel manipulation. *Default*: **native**;
 - offsetX: Offset by X-axis. *Default*: **0**;
-- offsetY: Offset by Y-axis. *Default*: **0**.
+- offsetY: Offset by Y-axis. *Default*: **0**;
+- imgClass: Class of the IMG element. *Default*: **shadowed**;
+- wrapperClass: Class of the IMG wrapper. *Default*: **shadow-wrapper**;
+
+API
+-----------
+
+Plugin support basic API calls. `$.imageShadow()` returns the object with API calls. For example, to remove all shadows, use:
+
+   $("img").imageShadow().destroy();
+
+Currently, the further API calls are supported:
+
+- **isActive**: Check whether images already have the shadow or not. Returns `true`, if at least one image has shadow;
+- **destroy**: Remove shadow and revert all to the original state;
 
 Compability
 -----------
@@ -45,4 +59,4 @@ Tested in Google Chrome 17+, Firefox 12+, Opera 11.62
 
 Internet Explorer 6-8 isn't supported, however it is real to make plugin working in future versions.
 
-In Google Chrome 17-20 bluring works not properly (I don't know why). Use `blurMethod: manual` for Chrome.
+In Google Chrome 17-22 bluring works not properly (I don't know why). Use `blurMethod: manual` for Chrome.
