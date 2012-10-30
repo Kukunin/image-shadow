@@ -10,6 +10,8 @@
 
     $.fn.extend({
         imageShadow: function(options) {
+            var init = !!options;
+
             options = $.extend({
                 color: "#000",
                 blur: 0,
@@ -141,21 +143,31 @@
                             },this),100);
                         }
                     });
+                },this),
+                "isActive" : $.proxy(function() {
+                    for(var i = 0; i < $(this).length; i++ ) {
+                        var obj = $(this).eq(i).data(v.dataKey);
+                        if ( obj && obj.isActive && obj.isActive() ) {
+                            return true;
+                        }
+                    }
+                    return false;
                 },this)
             };
-            //Multiplex other API calls
-            $.each(['isActive','destroy'], $.proxy(function(index, value) {
+            //Multiplex other similar API calls
+            $.each(['destroy'], $.proxy(function(index, value) {
                 $multiplexer[value] = $.proxy(function() {
                     var args = arguments;
                     $(this).each(function() {
                         var obj = $(this).data(v.dataKey);
                         if ( typeof obj[value] == "function" ) {
-                            obj[value](args);
+                             obj[value](args);
                         }
                     });
                 },this);
             },this));
-            $multiplexer.init();
+            if ( init )
+                $multiplexer.init();
 
             return $multiplexer;
         }
