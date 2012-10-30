@@ -69,4 +69,5 @@ Tested in Google Chrome 17+, Firefox 12+, Opera 11.62
 
 Internet Explorer 6-8 isn't supported, however it is real to make plugin working in future versions.
 
-In Google Chrome 17-22 bluring works not properly (I don't know why). Use `blurMethod: manual` for Chrome.
+In Google Chrome 17-22 bluring works not properly (http://code.google.com/p/chromium/issues/detail?id=100703).
+Use `blurMethod: manual` for Chrome.
