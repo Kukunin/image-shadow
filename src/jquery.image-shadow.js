@@ -12,10 +12,12 @@
         imageShadow: function(options) {
             var init = !!options;
 
+            if ( !window.Raphael ) {
+                throw new Exception("This plugin requires the Raphael.js");
+            }
+
             options = $.extend({
-                color: "#000",
                 blur: 0,
-                blurMethod: 'native',
                 offsetX : 0,
                 offsetY : 0,
                 hidden : false,
@@ -44,45 +46,35 @@
 
                 var doShadow = $.proxy(function() {
                     var imageWidth = this.$img.width(),
-                        imageHeight = this.$img.height();
+                        imageHeight = this.$img.height(),
+                        totalWidth = imageWidth + ( this.$$.blur*2),
+                        totalHeight = imageHeight + ( this.$$.blur*2);
 
-                    this.shadow = $("<canvas />")[0];
-                    if (this.shadow.getContext) {
-                        var context = this.shadow.getContext("2d");
-                            $(this.shadow).attr({
-                                width: imageWidth+(this.$$.blur*2),
-                                height: imageHeight+(this.$$.blur*2)
-                            });
-                            context.save();
-                            context.translate(this.$$.blur,this.$$.blur);
-                            context.shadowColor = this.$$.color;
-                            if ( this.$$.blurMethod == 'native' ) {
-                                context.shadowBlur = this.$$.blur;
-                            }
+                    this.shadow = $("<div/>")[0];
 
-                            //Make shadow separated from original image
-                            context.shadowOffsetX = imageWidth+this.$$.blur;
-                            context.shadowOffsetY = 0;
+                    var raphael = Raphael(this.shadow,totalWidth,totalHeight);
 
-                            //Draw image outside canvas, that shadow will appear on original image place
-                            context.drawImage(this.img, -imageWidth-this.$$.blur, 0, imageWidth, imageHeight);
-                            context.restore();
+                    // var defs = $("<defs/>").appendTo(this.shadow);
+                    // var filter = $('<filter id="f1" x="0" y="0" width="10" height="10"/>').appendTo(defs);
+                    // var offset = $('<feOffset result="offOut" in="SourceAlpha"/>').attr({
+                    //     "dx" : imageWidth + this.$$.blur,
+                    //     "dy" : 0
+                    // }).appendTo(filter);
 
-                            if ( this.$$.blurMethod == 'manual' ) {
-                                if ( typeof window.stackBoxBlurCanvasRGBA == "function" ) {
-                                    //Dirty hack, to pass canvas into stackBoxBlurCanvasRGBA function
-                                    var origin = document.getElementById;
-                                    document.getElementById = $.proxy(function() { return this.shadow; },this);
-                                    stackBoxBlurCanvasRGBA( "canvas", 0, 0, imageWidth+(this.$$.blur*2), imageHeight+(this.$$.blur*2), this.$$.blur, 1 );
-                                    document.getElementById = origin;
-                                } else {
-                                    throw "StackBoxBlur.js is required for manual blurring. See http://www.quasimondo.com/BoxBlurForCanvas/FastBlur2Demo.html";
-                                }
-                            }
-                    } else {
-                        //ToDo MSIE Supporting
-                        return;
-                    }
+                    // var blur = $('<feGaussianBlur result="blurOut" in="offOut"/>').attr("stdDeviation",10).appendTo(filter);
+                    // var blend = $('<feBlend in="SourceGraphic" in2="blurOut" mode="normal" />').appendTo(filter);
+
+                    // var img = document.createElementNS('http://www.w3.org/2000/svg','image');
+                    // img.setAttributeNS(null,'filter','url(#f1)');
+                    // img.setAttributeNS(null,'height',imageHeight);
+                    // img.setAttributeNS(null,'width',imageWidth);
+                    // img.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href','https://www.google.com.ua/images/srpr/logo3w.png');
+                    // img.setAttributeNS(null,'x',-imageWidth);
+                    // img.setAttributeNS(null,'y',0);
+                    // img.setAttributeNS(null, 'visibility', 'visible');
+                    // $(this.shadow).append(img);
+
+
                     $(this.shadow).css({
                         display: "block",
                         border: 0,

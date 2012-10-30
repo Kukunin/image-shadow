@@ -37,9 +37,7 @@ Options
 
 Plugin has these options:
 
-- color: Color of shadow. Format is the same, as for CSS properties. *Default*: **#000**;
 - blur: Blur radius. *Default*: **0**;
-- blurMethod: Can be *native* or *manual*. If *native* is chose, then `canvas.shadowBlur` will be used, if *manual* - blur algorithm, based on canvas pixel manipulation. *Default*: **native**;
 - offsetX: Offset by X-axis. *Default*: **0**;
 - offsetY: Offset by Y-axis. *Default*: **0**;
 - hidden: Whether is shadow is hidden by default. *Default*: **false**;
@@ -69,5 +67,3 @@ Tested in Google Chrome 17+, Firefox 12+, Opera 11.62
 
 Internet Explorer 6-8 isn't supported, however it is real to make plugin working in future versions.
 
-In Google Chrome 17-22 bluring works not properly (http://code.google.com/p/chromium/issues/detail?id=100703).
-Use `blurMethod: manual` for Chrome.
