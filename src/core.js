@@ -38,6 +38,8 @@
 		$.fn.extend({
 			imageShadow: function(options) {
 
+				var init = !!options;
+
 				options = $.extend({
 					color: "#000",
 					blur: 0,
@@ -62,8 +64,6 @@
 				} else {
 					throw "Can't find working method";
 				}
-
-				var init = !!options;
 
 				//Multiplexer, that contains the API for several elements
 				//And forward call to Method API
