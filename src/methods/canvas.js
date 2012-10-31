@@ -1,21 +1,21 @@
 window.jQuery && (function($) {
 	//Namespace
 	(function(_v) {
-		_v.CanvasContextImpl = function(img, $$) {
-			_v.Context.call(this, img, $$);
+		_v.CanvasMethod = function(img, $$) {
+			_v.Method.call(this, img, $$);
 		}
 
-		_v.CanvasContextImpl.getWeight = function() {
+		_v.CanvasMethod.getWeight = function() {
 			return 10;
 		}
 
-		_v.CanvasContextImpl.isAvailable = function() {
+		_v.CanvasMethod.isAvailable = function() {
 			return !!window.HTMLCanvasElement && !!window.CanvasRenderingContext2D;
 		}
 
-		_v.CanvasContextImpl.prototype = new _v.Context;
+		_v.CanvasMethod.prototype = new _v.Method;
 
-		_v.CanvasContextImpl.prototype.init = function() {
+		_v.CanvasMethod.prototype.init = function() {
 			//If elements ins't IMG tag
 			if ( !/^img$/i.test(this.$img.prop('tagName')) ) { return; }
 			//If already shadowed
@@ -97,26 +97,26 @@ window.jQuery && (function($) {
 				this.$img.load(doShadow);
 		};
 
-		_v.CanvasContextImpl.prototype.isActive = function() {
+		_v.CanvasMethod.prototype.isActive = function() {
 			return this.$img.hasClass(this.$$.imgClass) && this.$img.parent().hasClass(this.$$.wrapperClass);
 		}
 
-		_v.CanvasContextImpl.prototype.show = function() {
+		_v.CanvasMethod.prototype.show = function() {
 			this.$wrapper.addClass("show").removeClass("hide");
 			$(this.shadow).show();
 		}
 
-		_v.CanvasContextImpl.prototype.hide = function() {
+		_v.CanvasMethod.prototype.hide = function() {
 			this.$wrapper.addClass("hide").removeClass("show");
 			$(this.shadow).hide();
 		}
 
-		_v.CanvasContextImpl.prototype.toggle = function() {
+		_v.CanvasMethod.prototype.toggle = function() {
 			this.$wrapper.toggleClass("hide").toggleClass("show");
 			$(this.shadow).toggle();
 		}
 
-		_v.CanvasContextImpl.prototype.destroy = function() {
+		_v.CanvasMethod.prototype.destroy = function() {
 			if ( this.isActive() ) {
 				this.img.className = this.wrapper.className;
 				this.img.style.cssText = this.cssText;

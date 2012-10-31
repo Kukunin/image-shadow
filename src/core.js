@@ -13,9 +13,9 @@
 			dataKey : 'image-shadow'
 		}
 
-		var optimalContext;
+		var optimalMethod;
 
-		var chooseOptimalContext = function() {
+		var chooseOptimalMethod = function() {
 			//Choose method
 			var methods = [];
 			for( var x in _v ) {
@@ -39,9 +39,9 @@
 			imageShadow: function(options) {
 
 				//Choose optimal implementation
-				if( !optimalContext )
-					optimalContext = chooseOptimalContext();
-				if( !_v[optimalContext] )
+				if( !optimalMethod )
+					optimalMethod = chooseOptimalMethod();
+				if( !_v[optimalMethod] )
 					throw "Can't find working method";
 
 				var init = !!options;
@@ -59,13 +59,13 @@
 
 
 				//Multiplexer, that contains the API for several elements
-				//And forward call to Context API
+				//And forward call to Method API
 				var $multiplexer = {
 					"init" : $.proxy(function() {
 						$(this).each(function() {
-							//Check, if there is Context existing
+							//Check, if there is Method existing
 							if ( $(this).data(_v.v.dataKey) === undefined ) {
-								new _v[optimalContext](this, options).init();
+								new _v[optimalMethod](this, options).init();
 							}
 						});
 					},this),
