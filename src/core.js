@@ -29,6 +29,7 @@
 
 			for( var i = 0; i < methods.length; i++ ) {
 				if ( _v[methods[i]].isAvailable() ) {
+					console.log && console.log("Using " + methods[i] + " method");
 					return methods[i];
 				}
 			}
