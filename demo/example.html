@@ -5,10 +5,12 @@
         <title>Index</title>
         <script src="jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="http://www.quasimondo.com/BoxBlurForCanvas/StackBoxBlur.js" type="text/javascript" charset="utf-8"></script>
+        <script src="https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael-min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../src/core.js" type="text/javascript" charset="utf-8"></script>
         <script src="../src/method.js" type="text/javascript" charset="utf-8"></script>
         <script src="../src/methods/behind.js" type="text/javascript" charset="utf-8"></script>
         <script src="../src/methods/canvas.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/methods/raphael.js" type="text/javascript" charset="utf-8"></script>
     </head>
     <body>
         <h1>Image Shadow Example page</h1>
@@ -34,49 +36,29 @@
             });
         </script>
         <img id="shadow2" width="64" height="64" title="" alt="" src="circle.png" />
-        <h2>Use manual blurring method</h2>
+        <h2>Show blurred shadow with custom color</h2>
         <script type="text/javascript" charset="utf-8">
             $(function() {
                     $("#shadow3").imageShadow({
-                        "blur" : 5,
-                        "blurMethod" : "manual",
-                        "offsetX" : 5,
-                        "offsetY" : 5
+                        "blur"    : 5,
+                        "offsetX" : 80,
+                        "offsetY" : 0,
+                        "color"   : "green",
+                        "opacity" : 0.3
                     });
             });
         </script>
         <img id="shadow3" width="64" height="64" title="" alt="" src="circle.png" />
-        <h2>Show native blurred shadow</h2>
-        <script type="text/javascript" charset="utf-8">
-            $(function() {
-                    $("#shadow4").imageShadow({
-                        "blur" : 5,
-                        "offsetX" : 80,
-                        "offsetY" : 0
-                    });
-            });
-        </script>
-        <img id="shadow4" width="64" height="64" title="" alt="" src="circle.png" />
-        <h2>Show manual blurred shadow</h2>
-        <script type="text/javascript" charset="utf-8">
-            $(function() {
-                    $("#shadow5").imageShadow({
-                        "blur" : 5,
-                        "blurMethod" : "manual",
-                        "offsetX" : 80,
-                        "offsetY" : 0
-                    });
-            });
-        </script>
-        <img id="shadow5" width="64" height="64" title="" alt="" src="circle.png" />
         <h2>Show shadow on hover</h2>
         <script type="text/javascript" charset="utf-8">
             $(function() {
-                $("#shadow6").imageShadow({
+                $("#shadow4").imageShadow({
                     "blur" : 5,
                     "offsetX" : 0,
                     "offsetY" : 0,
-                    "hidden"  : 1
+                    "hidden"  : 1,
+                    "color"   : "red",
+                    "opacity" : 0.7
                 }).hover(function() {
                     $(this).imageShadow().show();
                 },function() {
@@ -84,6 +66,6 @@
                 });
             });
         </script>
-        <img id="shadow6" width="64" height="64" title="" alt="" src="circle.png" />
+        <img id="shadow4" width="64" height="64" title="" alt="" src="circle.png" />
     </body>
 </html>
