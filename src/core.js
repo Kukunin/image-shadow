@@ -8,12 +8,27 @@
 	//Init namespace
 	$.imageShadow = {};
 	(function(_v) {
+		//Variables
 		_v.v = {
 			dataKey : 'image-shadow'
 		}
 
+		var optimalContext;
+
+		var chooseOptimalContext = function() {
+			//Choose method
+			return "CanvasContextImpl";
+		}
+
 		$.fn.extend({
 			imageShadow: function(options) {
+
+				//Choose optimal implementation
+				if( !optimalContext )
+					optimalContext = chooseOptimalContext();
+				if( !_v[optimalContext] )
+					throw "Can't find working method";
+
 				var init = !!options;
 
 				options = $.extend({
@@ -35,7 +50,7 @@
 						$(this).each(function() {
 							//Check, if there is Context existing
 							if ( $(this).data(_v.v.dataKey) === undefined ) {
-								new _v.CanvasContextImpl(this, options).init();
+								new _v[optimalContext](this, options).init();
 							}
 						});
 					},this),

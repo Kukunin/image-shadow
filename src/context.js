@@ -9,9 +9,9 @@ window.jQuery && (function($) {
 			this.$img = $(img);
 		}
 
-		$.each(['init','isActive','show','hide','toggle','destroy'], function(index,value) {
+		$.each(['init','isActive','show','hide','toggle','destroy','getWeight'], function(index,value) {
 			_v.Context.prototype[value] = function() {
-				throw "Method '" + value + "' isn't implemented. Use subclass instead";
+				throw "Method '" + value + "' isn't implemented";
 			}
 		});
 	})($.imageShadow);
