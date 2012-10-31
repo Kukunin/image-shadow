@@ -29,7 +29,6 @@
 
 			for( var i = 0; i < methods.length; i++ ) {
 				if ( _v[methods[i]].isAvailable() ) {
-					console.log && console.log("Using " + methods[i] + " method");
 					return methods[i];
 				}
 			}
@@ -39,14 +38,6 @@
 		$.fn.extend({
 			imageShadow: function(options) {
 
-				//Choose optimal implementation
-				if( !optimalMethod )
-					optimalMethod = chooseOptimalMethod();
-				if( !_v[optimalMethod] )
-					throw "Can't find working method";
-
-				var init = !!options;
-
 				options = $.extend({
 					color: "#000",
 					blur: 0,
@@ -55,9 +46,24 @@
 					offsetY : 0,
 					hidden : false,
 					imgClass : 'shadowed',
-					wrapperClass : 'shadow-wrapper'
+					wrapperClass : 'shadow-wrapper',
+					method : ''
 				}, options);
 
+				//Choose optimal implementation
+				//One method for all shadows
+				if( !optimalMethod )
+					optimalMethod = chooseOptimalMethod();
+
+				if( (options.method && _v[options.method]) ) {
+					method = options.method;
+				} else if ( optimalMethod && _v[optimalMethod] ) {
+					method = optimalMethod;
+				} else {
+					throw "Can't find working method";
+				}
+
+				var init = !!options;
 
 				//Multiplexer, that contains the API for several elements
 				//And forward call to Method API
@@ -66,6 +72,7 @@
 						$(this).each(function() {
 							//Check, if there is Method existing
 							if ( $(this).data(_v.v.dataKey) === undefined ) {
+								console.log && console.log("Using " + method + " method");
 								new _v[optimalMethod](this, options).init();
 							}
 						});
