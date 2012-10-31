@@ -17,7 +17,22 @@
 
 		var chooseOptimalContext = function() {
 			//Choose method
-			return "CanvasContextImpl";
+			var methods = [];
+			for( var x in _v ) {
+				if ( _v[x].prototype && _v[x].prototype.marker == "marker" ) {
+					methods.push(x);
+				}
+			}
+			methods.sort(function(a, b) {
+				return _v[b].getWeight() - _v[a].getWeight();
+			});
+
+			for( var i = 0; i < methods.length; i++ ) {
+				if ( _v[methods[i]].isAvailable() ) {
+					return methods[i];
+				}
+			}
+			return false;
 		}
 
 		$.fn.extend({

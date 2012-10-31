@@ -5,6 +5,14 @@ window.jQuery && (function($) {
 			_v.Context.call(this, img, $$);
 		}
 
+		_v.CanvasContextImpl.getWeight = function() {
+			return 10;
+		}
+
+		_v.CanvasContextImpl.isAvailable = function() {
+			return !!window.HTMLCanvasElement && !!window.CanvasRenderingContext2D;
+		}
+
 		_v.CanvasContextImpl.prototype = new _v.Context;
 
 		_v.CanvasContextImpl.prototype.init = function() {
