@@ -96,10 +96,11 @@
 
                     this.$wrapper.insertAfter(this.img).append([this.img, this.shadow])
 
-                    this.wrapper.className = this.img.className;
+                    this.original = {};
+                    this.original.className = this.wrapper.className = this.img.className;
+                    this.original.cssText = this.wrapper.style.cssText = this.img.style.cssText;
                     this.$wrapper.addClass(this.$$.wrapperClass);
 
-                    this.cssText = this.wrapper.style.cssText = this.img.style.cssText;
 
                     this.$wrapper.css({
                         display: "block",
@@ -142,8 +143,8 @@
 
             Context.prototype.destroy = function() {
                 if ( this.isActive() ) {
-                    this.img.className = this.wrapper.className;
-                    this.img.style.cssText = this.cssText;
+                    this.img.className = this.original.className;
+                    this.img.style.cssText = this.original.cssText;
                     this.$wrapper.replaceWith( this.img );
                     this.$img.removeData(v.dataKey);
                 }
