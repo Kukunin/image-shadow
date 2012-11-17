@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Index</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="http://www.quasimondo.com/BoxBlurForCanvas/StackBoxBlur.js" type="text/javascript" charset="utf-8"></script>
+        <script src="jquery.image-shadow.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			function assert(text, condition) {
+				console.log && console.log(text + ": " + condition);
+			}
+		</script>
+		<style>
+			.position-absolute {
+				position:absolute;
+			}
+		</style>
+    </head>
+    <body>
+		<div class="test">
+			<h2>Test restoring original values</h2>
+			<img id="restoring-test" src="circle.png" width="64" height="64" class="original-class" style="font-size:20px">
+			<script type="text/javascript" charset="utf-8">
+				$(function() {
+					var img = $("#restoring-test");
+					img.imageShadow({
+						"onComplete" : function() {
+							assert("Wrapper has IMG classes", img.parent().hasClass("original-class"));
+							assert("Wrapper has IMG styles", img.parent().css("font-size") == "20px");
+							img.imageShadow().destroy();
+							assert("IMG classes are restored", img.hasClass("original-class"));
+							 assert("IMG styles", img.css("font-size") == "20px");
+						}
+					});
+				});
+			</script>
+		</div>
+		<div class="test">
+			<h2>Test IMG position:absolute</h2>
+			<img id="position-test" src="circle.png" width="64" height="64" class="position-absolute">
+			<script type="text/javascript" charset="utf-8">
+				$(function() {
+					var img = $("#position-test");
+					img.imageShadow({
+						"onComplete" : function(context) {
+							assert("Wrapper has position:absolute", img.parent().css("position") == "absolute");
+							assert("IMG has position:relative", img.css("position") == "relative");
+							context.destroy();
+							img.removeClass("position-absolute");
+							img.imageShadow({
+								"onComplete" : function() {
+									assert("Wrapper has position:relative", img.parent().css("position") == "relative");
+								}
+							});
+						}
+					});
+				});
+			</script>
+		</div>
+    </body>
+</html>

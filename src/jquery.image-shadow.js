@@ -20,7 +20,8 @@
                 offsetY : 0,
                 hidden : false,
                 imgClass : 'shadowed',
-                wrapperClass : 'shadow-wrapper'
+                wrapperClass : 'shadow-wrapper',
+                onComplete : $.noop
             }, options);
 
             var v = {
@@ -105,15 +106,20 @@
                     this.$wrapper.css({
                         display: "block",
                         width: imageWidth,
-                        height: imageHeight,
-                        position: "relative"
+                        height: imageHeight
                     });
+                    if ( !this.$wrapper.css("position") || this.$wrapper.css("position") == "static" ) {
+                        this.$wrapper.css("position","relative");
+                    }
+
                     this.img.style.cssText = "display: block; border: 0px; position:relative; z-index:2; ";
                     this.img.className = this.$$.imgClass;
 
                     this.$img.data(v.dataKey, this);
 
                     this.$$.hidden ? this.hide() : this.show();
+
+                    this.$$.onComplete(this);
                 }, this);
 
                 if (this.img.complete)
